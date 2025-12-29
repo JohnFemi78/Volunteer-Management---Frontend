@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
@@ -22,40 +22,55 @@ import Hero from "./pages/Hero";
 import About from "./pages/About";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import SignOut from "./pages/SignOut";
 
+
+const ProtectedRoute = ({children}) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
+    return children;  
+  };
 function App() {
+
+  const [user, setUser] = useState(() => {
+  const token = localStorage.getItem("token");
+  return token ? { loggedIn: true } : null;
+});
+  
   return (
     <div className="flex h-screen bg-slate-50 text-slate-900">
-      <Sidebar />
+      {user && <Sidebar />}
 
       <div className="flex-1 flex flex-col">
-        <Topbar />
+        {user && <Topbar />}
 
         <main className="p-6 overflow-auto">
           <Routes>
             <Route path="/" element={<Hero />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
-            <Route path="register" element={<Register />} />
-
+            <Route path="/register" element={<Register setUser={setUser}/>} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/logout" element={<ProtectedRoute><SignOut /></ProtectedRoute>} />
             {/* Volunteers */}
-            <Route path="/volunteers-create" element={<CreateVolunteer />} />
-            <Route path="/volunteer-list" element={<VolunteersList />} />
-            <Route path="/volunteer-details/:id" element={<VolunteerDetails />} />
-            <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/volunteers-create" element={<ProtectedRoute><CreateVolunteer /></ProtectedRoute>} />
+            <Route path="/volunteer-list" element={<ProtectedRoute><VolunteersList /></ProtectedRoute>} />
+            <Route path="/volunteer-details/:id" element={<ProtectedRoute><VolunteerDetails /></ProtectedRoute>} />
+            <Route path="/volunteer/edit/:id" element={<ProtectedRoute><EditVolunteer /></ProtectedRoute>} />
 
             {/* Projects */}
-            <Route path="/projects" element={<ProjectsList />} />
-            <Route path="/projects/:id" element={<ProjectDetails />} />
+            <Route path="/projects" element={<ProtectedRoute><ProjectsList /></ProtectedRoute>} />
+            <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
 
             {/* Attendance */}
-            <Route path="/attendance-list" element={<AttendanceList />} />
-            <Route path="/attendance/create" element={<CreateAttendance />} />
-            <Route path="/attendance/edit/:id" element={<EditAttendance />} />
+            <Route path="/attendance-list" element={<ProtectedRoute><AttendanceList /></ProtectedRoute>} />
+            <Route path="/attendance/create" element={<ProtectedRoute><CreateAttendance /></ProtectedRoute>} />
+            <Route path="/attendance/edit/:id" element={<ProtectedRoute><EditAttendance /></ProtectedRoute>} />
 
             {/* Assignments */}
-            <Route path="/assignments" element={<Assignments />} />
+            <Route path="/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
           </Routes>
         </main>
       </div>

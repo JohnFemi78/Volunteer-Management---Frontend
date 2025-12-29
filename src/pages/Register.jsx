@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../api/axios";
-import createUser from '../api/user'
+import { createUser } from '../api/user';
 
 export default function Register({ setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,15 +18,20 @@ export default function Register({ setUser }) {
     setLoading(true);
 
     try {
-      const response = await createUser({ email, password });
+      const response = await createUser({ email, password, firstName, lastName });
+      
       const { token, user } = response.data;
 
+        
+
+      // Save token and set user state
       localStorage.setItem("token", token);
       if (setUser) setUser(user);
 
-      navigate("/dashboard");
+      // Redirect directly to Login
+      navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -36,12 +42,8 @@ export default function Register({ setUser }) {
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">
-            Register new User
-          </h2>
-          <p className="text-slate-500">
-            Register to access your dashboard
-          </p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">Register new User</h2>
+          <p className="text-slate-500">Register to login to your account</p>
         </div>
 
         {/* Error */}
@@ -54,9 +56,34 @@ export default function Register({ setUser }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">
-              Email address
-            </label>
+            <div>
+             <label className="block text-sm font-medium text-slate-600 mb-1">
+                 First Name
+             </label>
+             <input
+              type="text"
+                 placeholder="John"
+                 value={firstName}
+                 onChange={(e) => setFirstName(e.target.value)}
+                 required
+                 className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+             />
+            </div>
+            <div>
+             <label className="block text-sm font-medium text-slate-600 mb-1">
+                 Last Name
+             </label>
+             <input
+              type="text"
+                 placeholder="Doe"
+                 value={lastName}
+                 onChange={(e) => setLastName(e.target.value)}
+                 required
+                 className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+             />
+            </div>
+
+            <label className="block text-sm font-medium text-slate-600 mb-1">Email address</label>
             <input
               type="email"
               placeholder="you@example.com"
@@ -68,9 +95,7 @@ export default function Register({ setUser }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Password</label>
             <input
               type="password"
               placeholder="••••••••"

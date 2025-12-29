@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../api/axios";
+import { loginUser } from '../api/user';
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
@@ -11,17 +11,23 @@ export default function Login({ setUser }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const response = await api.post("/auth/login", { email, password });
-      const { token, user } = response.data;
+      const response = await loginUser ({ email, password });
 
-      localStorage.setItem("token", token);
-      if (setUser) setUser(user);
+      const { access_token } = response.data;
+        
+      // 1️⃣ Save token to localStorage
+      localStorage.setItem("token", access_token);
 
+      // 2️⃣ Set user state in App
+      if (setUser) setUser({email});
+      
+      // 3️⃣ Navigate to dashboard
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
@@ -35,12 +41,8 @@ export default function Login({ setUser }) {
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">
-            Welcome Back
-          </h2>
-          <p className="text-slate-500">
-            Login to access your dashboard
-          </p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">Welcome Back</h2>
+          <p className="text-slate-500">Login to access your dashboard</p>
         </div>
 
         {/* Error */}
@@ -79,6 +81,19 @@ export default function Login({ setUser }) {
               className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
 
           <button
             type="submit"
@@ -91,8 +106,8 @@ export default function Login({ setUser }) {
 
         {/* Footer Links */}
         <div className="mt-6 text-center text-sm text-slate-500">
-          <Link to="/" className="hover:text-indigo-600">
-            ← Back to Home
+          <Link to="/register" className="hover:text-indigo-600">
+            Register
           </Link>
         </div>
       </div>
