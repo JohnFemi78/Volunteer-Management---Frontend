@@ -1,6 +1,5 @@
-import Reac, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import { projects } from "../../mock/data";
 import Card from "../../components/ui/Card";
 import { getProjectById } from "../../api/projects";
 
@@ -11,46 +10,69 @@ export default function ProjectDetails() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function loadProject() {
+    let isMounted = true;
+    const loadProject = async () => {
       try {
         setLoading(true);
-        const data = await getProjectById(id); //axios call
-        setProject(data);
+        setError(null);
+
+        const response = await getProjectById(id);
+        if (isMounted) {
+          setProject(response.data);
+        }
       } catch (error) {
-        console.error(error)
-        setError("Unable to load project");
+        console.error(error);
+        if (isMounted) {
+          setError("Unable to load project");
+        }
       }finally {
-        setLoading(false)
+        if (isMounted) {
+        setLoading(false);
       }
     }
+    };
+  
     loadProject();
-  }, [id]);
 
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+   
   if (loading) return <div className='p-4'>Loading project...</div>;
   if (error) return <div className='p-4 text-red-500'>{error}</div>;
   if (!project) return <div className='p-4'>Project not found</div>;
 
+  const formatDate = (date) => 
+    date ? new Date(date).toLocaleDateString() : "-";
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <Card className="p-4">
-        <h2 className="text-2xl font-semibold">{project.projectName}</h2>
-        <p className="text-sm text-slate-500 mt-2">{project.description}</p>
+      <Card className="p-5">
+        <h2 className="text-2xl font-semibold">
+          {project.projectName || "Untitled Project"}
+        </h2>
 
-        <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+        <p className="text-sm text-slate-500 mt-2">
+          {project.description || "No description provided."}
+        </p>
+
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
           <div>
-            <div className="text-slate-500">Start</div>
-            <div>{project.startDate}</div>
+            <div className="text-slate-500">Start Date</div>
+            <div>{formatDate(project.startDate)}</div>
           </div>
 
           <div>
-            <div className="text-slate-500">End</div>
-            <div>{project.endDate}</div>
+            <div className="text-slate-500">End Date</div>
+            <div>{formatDate(project.endDate)}</div>
           </div>
 
           <div>
             <div className="text-slate-500">Status</div>
-            <div>{project.status}</div>
+            <span className="inline-block mt-1 px-2 py-1 rounded bg-slate-100 text-slate-700">
+              {project.status || "Unknown"}
+            </span>
           </div>
         </div>
       </Card>
@@ -58,12 +80,16 @@ export default function ProjectDetails() {
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="p-4">
           <h3 className="font-semibold">Assigned Volunteers</h3>
-          <p className="text-sm text-slate-500">No assigned volunteers (mock)</p>
+          <p className="text-sm text-slate-500 mt-2">
+            No assigned volunteers yet.
+          </p>
         </Card>
 
         <Card className="p-4">
           <h3 className="font-semibold">Project Activity</h3>
-          <p className="text-sm text-slate-500">No activity (mock)</p>
+          <p className="text-sm text-slate-500 mt-2">
+            No activity recorded yet.
+          </p>
         </Card>
       </div>
     </div>

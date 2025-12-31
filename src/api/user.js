@@ -1,13 +1,11 @@
 import api from "./axios";
 
-export const loginUser = async (payload) => {
-  const res = await api.post("/auth/login", payload);
-  return res.data;
+export const loginUser = (data) => {
+  return api.post("/auth/login", data);
 }
 
-export const getUser = async () => {
-  const res = await api.get("/user/all");
-  return res.data;
+export const getUser =(data) => {
+  return api.get("/user/all", data);
 };
 
 export const getUserById = async (id) => {

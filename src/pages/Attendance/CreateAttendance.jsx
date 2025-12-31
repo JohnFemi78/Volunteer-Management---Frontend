@@ -29,7 +29,7 @@ export default function CreateAttendance() {
     
     try {
       const payload = {...form};
-      
+      console.log(payload);
       await createAttendance(payload);
       navigate("/attendance");
     } catch (err) {

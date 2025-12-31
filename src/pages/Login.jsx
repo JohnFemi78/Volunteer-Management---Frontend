@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from '../api/user';
 
-export default function Login({ setUser }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,8 +24,6 @@ export default function Login({ setUser }) {
       // 1️⃣ Save token to localStorage
       localStorage.setItem("token", access_token);
 
-      // 2️⃣ Set user state in App
-      if (setUser) setUser({email});
       
       // 3️⃣ Navigate to dashboard
       navigate("/dashboard");
@@ -71,19 +69,6 @@ export default function Login({ setUser }) {
           <div>
             <label className="block text-sm font-medium text-slate-600 mb-1">
               Password
-            </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">
-              Confirm Password
             </label>
             <input
               type="password"

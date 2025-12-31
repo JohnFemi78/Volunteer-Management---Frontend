@@ -1,8 +1,7 @@
-import api from "axios";
+import api from "./axios";
 
-export const createAttendance = async (payload) => {
-  const response = await api.post("/attendance", payload);
-  return response.data;
+export const createAttendance = (payload) => {
+  return api.post("/attendance/create", payload);
 };
 //attendance should not be editable
 // export const updateAttendance = async (id, payload) => {
@@ -10,19 +9,14 @@ export const createAttendance = async (payload) => {
 //   return response.data;
 // };
 
-export const getAttendanceById = async (id) => {
-  const response = await api.put(`/attendance/${id}`)
-  return response.data;
+export const getAttendanceById = (id) => {
+  return api.get(`/attendance/fetch/${id}`);
 };
 
-export const getAttendance = async () => {
-    const response = await api.put("/attendance");
-    return response.data;
+export const getAttendance = () => {
+  return api.get("/attendance/all");
 };
 
-export const deleteAttendanceById = async (id) => {
-  const response = await api.delete(`/attendance/${id}`)
-  return response.data;
+export const deleteAttendanceById = (id) => {
+  return api.delete(`/attendance/remove/${id}`);
 };
-
-

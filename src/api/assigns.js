@@ -1,28 +1,23 @@
 import api from "./axios";
 
-export const createAssign = async (payload) => {
-  const response = await api.post("/assigns", payload);
-  return response.data;
-}
-
-export const updateAssignById = async (id, payload) => {
-  const response = await api.put(`/assigns/${id}`, payload);
-  return response.data;
+export const createAssign = (payload) => {
+  return api.post("/volunteerProject/create", payload);
 };
 
-export const getAssigns = async () => {
-  const response = await api.get("/assigns");
-  return response.data;
+export const updateAssignById = (id, payload) => {
+  return api.put(`/volunteerProject/update/${id}`, payload);
 };
 
-export const getAssignsById = async (id) => {
-  const response = await api.get(`/assigns/${id}`);
-  return response.data;
+export const getAssigns = (data) => {
+  return api.get("/volunteerProject/all", data);
 };
 
-export const deleteAssignsById = async (id) => {
-  const response = await api.delete(`/assigns/${id}`);
-  return response.data;
+export const getAssignsById = (id) => {
+  return api.get(`/volunteerProject/${id}`);
+};
+
+export const deleteAssignsById = (id) => {
+  return api.delete(`/volunteerProject/remove/${id}`);
 };
 
 

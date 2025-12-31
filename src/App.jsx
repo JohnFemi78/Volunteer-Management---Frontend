@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
@@ -33,26 +33,22 @@ const ProtectedRoute = ({children}) => {
     return children;  
   };
 function App() {
-
-  const [user, setUser] = useState(() => {
-  const token = localStorage.getItem("token");
-  return token ? { loggedIn: true } : null;
-});
+const isAuthenticated = !!localStorage.getItem("token");
   
   return (
     <div className="flex h-screen bg-slate-50 text-slate-900">
-      {user && <Sidebar />}
+      {isAuthenticated && <Sidebar />}
 
       <div className="flex-1 flex flex-col">
-        {user && <Topbar />}
+        {isAuthenticated && <Topbar />}
 
         <main className="p-6 overflow-auto">
           <Routes>
             <Route path="/" element={<Hero />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
-            <Route path="/register" element={<Register setUser={setUser}/>} />
-            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<ProtectedRoute><SignOut /></ProtectedRoute>} />
             {/* Volunteers */}
             <Route path="/volunteers-create" element={<ProtectedRoute><CreateVolunteer /></ProtectedRoute>} />
