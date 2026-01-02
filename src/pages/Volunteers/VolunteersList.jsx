@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Card  from "../../components/ui/Card"
-import { getVolunteers, deleteVolunteer } from "../../api/volunteers";
-import {useNavigate} from "react-router-dom"
+import { getVolunteers, getVolunteerById, deleteVolunteer } from "../../api/volunteers";
 import { isAdmin } from "/utils/auth";
+import { useNavigate } from "react-router-dom";
+import VolunteerDetails from "./VolunteerDetails";
 
 export default function VolunteersList() {
   const [volunteers, setVolunteers] = useState([]);
@@ -16,7 +17,8 @@ export default function VolunteersList() {
       setLoading(true);
         try {
         const volunteers = await getVolunteers();
-        setVolunteers(volunteers);
+        setVolunteers(volunteers.data.volunteers || []);
+    
       } catch (err) {
         console.error(err);
         setError("Failed to load volunteers");
@@ -43,6 +45,17 @@ export default function VolunteersList() {
       setError("Delete Failed")
       }
     }
+    // //View Volunteer Details
+    // async function handleView(id) {
+    //   try {
+    //     await getVolunteerById(id);
+    //     setVolunteer(volunteer.data.volunter)    
+    //   } catch (error) {
+    //     console.error(error);
+    //     setError("Unable to fetch volunteer details.");
+    //   }
+    // }
+
     if (loading) {
       return <div className="p-6">Loading volunteers...</div>
     }
@@ -53,11 +66,12 @@ export default function VolunteersList() {
   
   
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="flex- max-w-5xl mx-auto p-6">
+      <div className="flex-column justify-center items-center mb-6">
         <h2 className="text-2xl font-semibold">Volunteers</h2>
 
-        <button className="btn-primary" onClick={() =>
+        <button className="btn-primary" 
+        onClick={() =>
            navigate("/volunteers/create")}>
             Add Volunteer
         </button>
@@ -67,38 +81,37 @@ export default function VolunteersList() {
             <p className="text-slate-500">No Volunteers found </p>
           </Card>
         ) : (
-          <div className="space-y-4">
-            {volunteers.map((v) => (
-              <Card key={v.id} className="flex justify-between items-center">
-                <div>
-                  <div className="font-medium">
-                    {v.firstName} {v.lastName}
-                  </div>
-                  <div className="text-sm text-slate-500">
-                      {v.phone || "-"}
-                  </div>
-                  <div className="text-sm text-slate-500">
-                    {Array.isArray(v.skills) ? v.skills.join(",") : "-"}
-                  </div>
-                </div>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  {volunteers.map((volunteer) => (
+    <div
+      key={volunteer.id}
+      className="flex items-start justify-between rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+    >
+      <div>
+        <h4 className="font-semibold text-gray-900">
+          {volunteer.firstName} {volunteer.lastName}
+        </h4>
 
-                <div className="flex gap-2">
-                  <button className="btn-secondary"
-                  onClick={() => navigate(`/volunteers/edit/${v.id}`)}>
-                    Edit
-                  </button>
+        <p className="mt-1 text-sm text-gray-600">
+          Phone: {volunteer.phone}
+        </p>
 
-                  {ADMIN && (
-                    <button className="btn-danger"
-                    onClick={() => handleDelete(v.id)}>
-                    Delete
-                    </button>
-                  )}
-                </div>
-              </Card>
-            ))}
+        <p className="mt-1 text-sm text-gray-600">
+          Skills: {volunteer.skills?.join(", ")}
+        </p>
+      </div>
 
-          </div>
+      <button className="text-sm font-medium text-indigo-600 hover:underline" onClick={() => navigate(`/volunteer/${volunteer.id}`)}>
+        View
+      </button>
+      <br />
+      <button onClick={() => handleDelete(volunteer.id)} className="text-sm font-medium text-indigo-600 hover:underline">
+        Delete
+      </button>
+    </div>
+  ))}
+</div>
+
         )} 
       </div>
 

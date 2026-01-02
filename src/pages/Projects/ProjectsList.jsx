@@ -11,6 +11,7 @@ export default function ProjectsList() {
 
   useEffect(() => {
     async function loadProject() {
+      setLoading(true);
       try {
         const res = await getProjects();
         setProjects(res.data);
@@ -31,10 +32,12 @@ export default function ProjectsList() {
     if (!confirmDelete) return;
     try {
       await deleteProjectById(id);
+      
       //remove deleted project from UI
       setProjects((prev) => prev.filter((p) => p.id !== id));
     } catch (error) {
-      console.error("Failed to delete project", error);
+      console.error(error);
+      setError("Delete Failed");
     }
   }
   if (loading) {

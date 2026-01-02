@@ -4,8 +4,8 @@ export const getVolunteers = (data) => {
   return api.get("/volunteer/all", data);
 };
 
-export const getVolunteerById = (id) => {
-  return api.get(`/volunteer/fetch/${id}`);
+export const getVolunteerById = (id, data) => {
+  return api.get(`/volunteer/fetch/${id}`, data);
 };
 
 export const createVolunteer = (payload) => {

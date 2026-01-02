@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
 import VolunteersList from "./pages/Volunteers/VolunteersList";
@@ -33,6 +33,7 @@ const ProtectedRoute = ({children}) => {
     return children;  
   };
 function App() {
+  const location = useLocation();
 const isAuthenticated = !!localStorage.getItem("token");
   
   return (
@@ -43,7 +44,7 @@ const isAuthenticated = !!localStorage.getItem("token");
         {isAuthenticated && <Topbar />}
 
         <main className="p-6 overflow-auto">
-          <Routes>
+          <Routes location={location}>
             <Route path="/" element={<Hero />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
@@ -52,8 +53,8 @@ const isAuthenticated = !!localStorage.getItem("token");
             <Route path="/logout" element={<ProtectedRoute><SignOut /></ProtectedRoute>} />
             {/* Volunteers */}
             <Route path="/volunteers-create" element={<ProtectedRoute><CreateVolunteer /></ProtectedRoute>} />
-            <Route path="/volunteer-list" element={<ProtectedRoute><VolunteersList /></ProtectedRoute>} />
-            <Route path="/volunteer-details/:id" element={<ProtectedRoute><VolunteerDetails /></ProtectedRoute>} />
+            <Route path="/volunteers" element={<ProtectedRoute><VolunteersList /></ProtectedRoute>} />
+            <Route path="/volunteer/:id" element={<ProtectedRoute><VolunteerDetails /></ProtectedRoute>} />
             <Route path="/volunteer/edit/:id" element={<ProtectedRoute><EditVolunteer /></ProtectedRoute>} />
 
             {/* Projects */}
