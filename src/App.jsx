@@ -9,8 +9,11 @@ import CreateVolunteer from "./pages/Volunteers/CreateVolunteer";
 
 import ProjectsList from "./pages/Projects/ProjectsList";
 import ProjectDetails from "./pages/Projects/ProjectDetails";
+import CreateProject from "./pages/Projects/CreateProject";
 
-import Assignments from "./pages/Assignments/Assignments";
+import AssignmentDetails from "./pages/Assignments/AssignmentDetails";
+import AssignmentLists from "./pages/Assignments/AssignmentLists";
+import CreateAssignment from "./pages/Assignments/CreateAssignment";
 
 import AttendanceList from "./pages/Attendance/AttendanceList";
 import CreateAttendance from "./pages/Attendance/CreateAttendance";
@@ -52,7 +55,7 @@ const isAuthenticated = !!localStorage.getItem("token");
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<ProtectedRoute><SignOut /></ProtectedRoute>} />
             {/* Volunteers */}
-            <Route path="/volunteers-create" element={<ProtectedRoute><CreateVolunteer /></ProtectedRoute>} />
+            <Route path="/volunteer/create" element={<ProtectedRoute><CreateVolunteer /></ProtectedRoute>} />
             <Route path="/volunteers" element={<ProtectedRoute><VolunteersList /></ProtectedRoute>} />
             <Route path="/volunteer/:id" element={<ProtectedRoute><VolunteerDetails /></ProtectedRoute>} />
             <Route path="/volunteer/edit/:id" element={<ProtectedRoute><EditVolunteer /></ProtectedRoute>} />
@@ -60,14 +63,18 @@ const isAuthenticated = !!localStorage.getItem("token");
             {/* Projects */}
             <Route path="/projects" element={<ProtectedRoute><ProjectsList /></ProtectedRoute>} />
             <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
+            <Route path="/CreateProject" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
+
 
             {/* Attendance */}
-            <Route path="/attendance-list" element={<ProtectedRoute><AttendanceList /></ProtectedRoute>} />
+            <Route path="/attendance" element={<ProtectedRoute><AttendanceList /></ProtectedRoute>} />
             <Route path="/attendance/create" element={<ProtectedRoute><CreateAttendance /></ProtectedRoute>} />
             <Route path="/attendance/edit/:id" element={<ProtectedRoute><EditAttendance /></ProtectedRoute>} />
 
             {/* Assignments */}
-            <Route path="/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
+            <Route path="/assignmentDetails" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
+            <Route path="/assignmentLists" element={<ProtectedRoute><AssignmentLists /></ProtectedRoute>} />
+            <Route path="/assignment" element={<ProtectedRoute><CreateAssignment /></ProtectedRoute>} />
           </Routes>
         </main>
       </div>

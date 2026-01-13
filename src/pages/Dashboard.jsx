@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [attendance, setAttendance] = useState([]);
   const [assigns, setAssigns] = useState([]);
   const [error, setError] = useState(null);
+  
 
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Dashboard() {
         
         setVolunteers(volRes.data.volunteers || []);
         setProjects(projRes.data || []);
-        setAttendance(attendanceRes.data || []);
+        setAttendance(attendanceRes.data.attendance || []);
         setAssigns(assignsRes.data.assignments || []);     
       } catch (err) {
         console.error("Dashboard load failed", err);

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Card from "../../components/ui/Card";
 import { getVolunteerById } from "../../api/volunteers";
 
 export default function VolunteerDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [volunteer, setVolunteer] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ export default function VolunteerDetails() {
         // console.log("Volunteer API response:", response.data);
 
         if (isMounted) {
-          // 🔴 IMPORTANT FIX HERE
+          
           setVolunteer(response.data.volunteer);
         }
       } catch (err) {
@@ -60,6 +61,7 @@ export default function VolunteerDetails() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
+      <button onClick={() => navigate("/Volunteers")} > Back </button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* LEFT PANEL */}
         <div className="md:col-span-1">

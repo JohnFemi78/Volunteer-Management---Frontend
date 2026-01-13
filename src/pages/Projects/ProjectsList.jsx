@@ -22,6 +22,7 @@ export default function ProjectsList() {
         setLoading(false);
       }
     }
+    
     loadProject();
   }, []);
 
@@ -53,7 +54,7 @@ export default function ProjectsList() {
 
         <button
           className="btn-primary"
-          onClick={() => navigate("/projects/create")}
+          onClick={() => navigate("/CreateProject")}
         >
           Add Project
         </button>

@@ -15,7 +15,7 @@ export default function Sidebar(){
         <NavItem to="/dashboard">🏠 Dashboard</NavItem>
         <NavItem to="/volunteers">👥 Volunteers</NavItem>
         <NavItem to="/projects">📁 Projects</NavItem>
-        <NavItem to="/assignments">🔗 Assignments</NavItem>
+        <NavItem to="/assignmentLists">🔗 Assignments</NavItem>
         <NavItem to="/attendance">🗓 Attendance</NavItem>
       </nav>
       <div className="mt-auto text-sm opacity-80">© {new Date().getFullYear()} NGO</div>

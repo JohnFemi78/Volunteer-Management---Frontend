@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card  from "../../components/ui/Card"
-import { getVolunteers, getVolunteerById, deleteVolunteer } from "../../api/volunteers";
-import { isAdmin } from "/utils/auth";
+import { getVolunteers, deleteVolunteer } from "../../api/volunteers";
+import { isAdmin } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
-import VolunteerDetails from "./VolunteerDetails";
 
 export default function VolunteersList() {
   const [volunteers, setVolunteers] = useState([]);
@@ -45,16 +44,20 @@ export default function VolunteersList() {
       setError("Delete Failed")
       }
     }
-    // //View Volunteer Details
-    // async function handleView(id) {
-    //   try {
-    //     await getVolunteerById(id);
-    //     setVolunteer(volunteer.data.volunter)    
-    //   } catch (error) {
-    //     console.error(error);
-    //     setError("Unable to fetch volunteer details.");
-    //   }
-    // }
+   // update the volunteers list
+  //  async function handleEdit(id) {
+  //   const confirmEdit = window.confirm(
+  //     "Are you sure you want to edit this volunteer?"
+  //   );
+  //   if (!confirmEdit) return;
+  //   try {
+  //     setLoading(true);
+      
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError("Edit Failed")
+  //   }
+  //  }
 
     if (loading) {
       return <div className="p-6">Loading volunteers...</div>
@@ -66,55 +69,95 @@ export default function VolunteersList() {
   
   
   return (
-    <div className="flex- max-w-5xl mx-auto p-6">
-      <div className="flex-column justify-center items-center mb-6">
-        <h2 className="text-2xl font-semibold">Volunteers</h2>
+    <div className="max-w-6xl mx-auto p-6">
+  {/* Header */}
+  <div className="flex items-center justify-between mb-6">
+    <h2 className="text-2xl font-semibold">Volunteers</h2>
 
-        <button className="btn-primary" 
-        onClick={() =>
-           navigate("/volunteers/create")}>
-            Add Volunteer
-        </button>
-
-        {volunteers.length === 0 ? (
-          <Card>
-            <p className="text-slate-500">No Volunteers found </p>
-          </Card>
-        ) : (
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  {volunteers.map((volunteer) => (
-    <div
-      key={volunteer.id}
-      className="flex items-start justify-between rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+    <button
+      className="btn-primary"
+      onClick={() => navigate("/volunteer/create")}
     >
-      <div>
-        <h4 className="font-semibold text-gray-900">
-          {volunteer.firstName} {volunteer.lastName}
-        </h4>
+      Add Volunteer
+    </button>
+  </div>
 
-        <p className="mt-1 text-sm text-gray-600">
-          Phone: {volunteer.phone}
-        </p>
+  {volunteers.length === 0 ? (
+    <Card>
+      <p className="text-slate-500">No Volunteers found</p>
+    </Card>
+  ) : (
+    <div className="overflow-x-auto bg-white rounded-xl border border-gray-200 shadow-sm">
+      <table className="min-w-full divide-y divide-gray-200">
+        {/* TABLE HEAD */}
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+              Name
+            </th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+              Phone
+            </th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+              Skills
+            </th>
+            <th className="px-4 py-3 text-right text-sm font-semibold text-gray-600">
+              Actions
+            </th>
+          </tr>
+        </thead>
 
-        <p className="mt-1 text-sm text-gray-600">
-          Skills: {volunteer.skills?.join(", ")}
-        </p>
-      </div>
+        {/* TABLE BODY */}
+        <tbody className="divide-y divide-gray-100">
+          {volunteers.map((volunteer) => (
+            <tr
+              key={volunteer.id}
+              className="odd:bg-white even:bg-gray-50 hover:bg-gray-100"
+            >
+              <td className="px-4 py-3 font-medium text-gray-900">
+                {volunteer.firstName} {volunteer.lastName}
+              </td>
 
-      <button className="text-sm font-medium text-indigo-600 hover:underline" onClick={() => navigate(`/volunteer/${volunteer.id}`)}>
-        View
-      </button>
-      <br />
-      <button onClick={() => handleDelete(volunteer.id)} className="text-sm font-medium text-indigo-600 hover:underline">
-        Delete
-      </button>
+              <td className="px-4 py-3 text-sm text-gray-600">
+                {volunteer.phone || "-"}
+              </td>
+
+              <td className="px-4 py-3 text-sm text-gray-600">
+                {Array.isArray(volunteer.skills) && volunteer.skills.length > 0
+                  ? volunteer.skills.join(", ")
+                  : "—"}
+              </td>
+
+              <td className="px-4 py-3">
+                <div className="flex justify-end gap-4">
+                  <button  
+                    onClick={() => navigate(`/volunteer/${volunteer.id}`)}
+                    className="text-sm font-medium text-green-600 hover:underline"
+                  >
+                    View
+                  </button>
+                  <button
+                    onClick={() => navigate(`/volunteer/edit/${volunteer.id}`)}
+                    className="text-sm font-medium text-indigo-600 hover:underline"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(volunteer.id)}
+                    className="text-sm font-medium text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  ))}
+  )}
 </div>
 
-        )} 
-      </div>
-
-    </div>
   );
 }
