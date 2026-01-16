@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAssigns, deleteAssignsById, getAssignsById } from '../../api/Assigns';
+import { getAssigns, deleteAssignsById, getAssignsById } from '../../api/assigns';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -129,7 +129,7 @@ export default function AssignmentLists() {
                     View
                   </button>
 
-                  <button onClick={() => navigate(`/assignments/edit/${assignment.id}`)}
+                  <button onClick={() => navigate(`/assignment/edit/${assignment.id}`)}
                     className="text-sm font-medium text-green-600 hover:underline"
                   >
                     Edit

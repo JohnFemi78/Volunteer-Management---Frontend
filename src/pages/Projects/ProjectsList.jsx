@@ -53,7 +53,7 @@ export default function ProjectsList() {
         <h2 className="text-2xl font-semibold">Projects</h2>
 
         <button
-          className="btn-primary"
+          className="btn-primary text-1xl text-blue-600 hover:underline cursor-pointer"
           onClick={() => navigate("/CreateProject")}
         >
           Add Project

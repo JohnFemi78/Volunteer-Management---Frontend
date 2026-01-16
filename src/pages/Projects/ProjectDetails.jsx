@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Card from "../../components/ui/Card";
 import { getProjectById } from "../../api/projects";
 
@@ -8,6 +8,7 @@ export default function ProjectDetails() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let isMounted = true;
@@ -18,8 +19,9 @@ export default function ProjectDetails() {
 
         const response = await getProjectById(id);
         if (isMounted) {
-          setProject(response.data);
+          setProject(response.data.project);
         }
+    
       } catch (error) {
         console.error(error);
         if (isMounted) {
@@ -45,10 +47,13 @@ export default function ProjectDetails() {
 
   const formatDate = (date) => 
     date ? new Date(date).toLocaleDateString() : "-";
-
+  // console.log(" PROJECT STATE:", project);
   return (
     <div className="max-w-5xl mx-auto p-4">
       <Card className="p-5">
+        <h2 className="text-2xl font-semibold">
+          {project.id || "Project ID"}
+        </h2>
         <h2 className="text-2xl font-semibold">
           {project.projectName || "Untitled Project"}
         </h2>
@@ -79,9 +84,9 @@ export default function ProjectDetails() {
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="p-4">
-          <h3 className="font-semibold">Assigned Volunteers</h3>
+          <h3 className="font-semibold">Assigned Volunteer</h3>
           <p className="text-sm text-slate-500 mt-2">
-            No assigned volunteers yet.
+            No assigned volunteer yet.
           </p>
         </Card>
 
@@ -91,7 +96,11 @@ export default function ProjectDetails() {
             No activity recorded yet.
           </p>
         </Card>
-      </div>
+      </div >
+      <Card className="flex justify-center">
+        <h3 className="font-semibold text-indigo-600 cursor-pointer hover:underline transition" 
+        onClick={() => navigate('/projects')}>Back</h3>
+      </Card>
     </div>
   );
 }

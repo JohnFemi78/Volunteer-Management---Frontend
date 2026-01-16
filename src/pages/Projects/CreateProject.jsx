@@ -31,7 +31,7 @@ export default function CreateProject() {
             
       await createProject(form);
       setForm(emptyForm);
-      navigate("./projects");
+      navigate("projects");
         } catch (error) {
           console.error(error);
           setError("Failed to create project");  
@@ -43,7 +43,11 @@ export default function CreateProject() {
 
   return (
   <div className="max-w-xl mx-auto">
-    <p className="text-3xl text-amber-950 hover:bg-blue-200 hover:shadow-amber-300" onClick={() => navigate('./projects')}>Back</p>
+    <card className="flex justify-center">
+    <p className="font-semibold text-3xl text-indigo-600 cursor-pointer hover:underline transition"
+     onClick={() => navigate('/projects')}
+     >Back</p>
+    </card>
     <Card className="p-6 rounded-xl shadow-sm bg-white">
       <h2 className="text-2xl font-semibold mb-6 text-slate-800">
         Create Project

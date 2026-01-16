@@ -14,6 +14,7 @@ import CreateProject from "./pages/Projects/CreateProject";
 import AssignmentDetails from "./pages/Assignments/AssignmentDetails";
 import AssignmentLists from "./pages/Assignments/AssignmentLists";
 import CreateAssignment from "./pages/Assignments/CreateAssignment";
+import EditAssignment from "./pages/Assignments/EditAssignment";
 
 import AttendanceList from "./pages/Attendance/AttendanceList";
 import CreateAttendance from "./pages/Attendance/CreateAttendance";
@@ -75,6 +76,7 @@ const isAuthenticated = !!localStorage.getItem("token");
             <Route path="/assignmentDetails" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
             <Route path="/assignmentLists" element={<ProtectedRoute><AssignmentLists /></ProtectedRoute>} />
             <Route path="/assignment" element={<ProtectedRoute><CreateAssignment /></ProtectedRoute>} />
+            <Route path="/assignment/edit/:id" element={<ProtectedRoute><EditAssignment /></ProtectedRoute>} />
           </Routes>
         </main>
       </div>

@@ -3,7 +3,7 @@ import Card from '../components/ui/Card'
 import { getVolunteers } from "../api/volunteers";
 import { getProjects } from "../api/projects";
 import { getAttendance } from "../api/attendance";
-import { getAssigns } from "../api/Assigns";
+import { getAssigns } from "../api/assigns";
 
 
 export default function Dashboard() {

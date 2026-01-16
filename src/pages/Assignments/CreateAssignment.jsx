@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { createAssign } from '../../api/Assigns';
+import { createAssign } from '../../api/assigns';
 import Card from '../../components/ui/Card';
 import { useNavigate } from 'react-router-dom';
 
@@ -98,7 +98,7 @@ export default function CreateAssignment() {
             </select>
             </div>
 
-            {/* Volunteer Status */}
+            {/* Project Status */}
         <div>
           <label className="block text-sm font-medium text-slate-600 mb-1">
             Assignment Status
