@@ -78,6 +78,7 @@ export default function CreateAssignment() {
             <label htmlFor="assignDate" className='block text-sm font-medium text-slate-600 mb-1'>Date Assigned</label>
             <input type="date" name='assignedDate' 
             placeholder='Date of Assignment'
+            value={form.assignedDate}
             onChange={changeHandler} className="w-full rounded-md border border-slate-300 px-3 py-2
                        focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>

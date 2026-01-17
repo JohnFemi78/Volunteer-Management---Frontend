@@ -16,6 +16,7 @@ export default function EditAssignment() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const formattedDate = new Date().toISOString().split("T")[0];
 
     useEffect(() => {
         setIsLoading(true);
@@ -121,7 +122,7 @@ export default function EditAssignment() {
               <input
                 type='date'
                 name="assignedDate"
-                value={form.assignedDate}
+                value={formattedDate}
                 onChange={handleChange}
                 className="w-full rounded-md border border-slate-300 px-3 py-2 bg-white
                            focus:outline-none focus:ring-2 focus:ring-blue-500">   

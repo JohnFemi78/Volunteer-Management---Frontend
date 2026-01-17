@@ -73,7 +73,7 @@ const isAuthenticated = !!localStorage.getItem("token");
             <Route path="/attendance/edit/:id" element={<ProtectedRoute><EditAttendance /></ProtectedRoute>} />
 
             {/* Assignments */}
-            <Route path="/assignmentDetails" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
+            <Route path="/assignmentDetails/:id" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
             <Route path="/assignmentLists" element={<ProtectedRoute><AssignmentLists /></ProtectedRoute>} />
             <Route path="/assignment" element={<ProtectedRoute><CreateAssignment /></ProtectedRoute>} />
             <Route path="/assignment/edit/:id" element={<ProtectedRoute><EditAssignment /></ProtectedRoute>} />

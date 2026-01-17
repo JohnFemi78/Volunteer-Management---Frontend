@@ -123,7 +123,7 @@ export default function AssignmentLists() {
               <td className="px-4 py-3 text-right">
                 <div className="flex justify-end gap-4">
                   <button
-                    onClick={() => handleView(assignment.id)}
+                    onClick={() => navigate(`/assignmentDetails/${assignment.id}`)}
                     className="text-sm font-medium text-indigo-600 hover:underline"
                   >
                     View
