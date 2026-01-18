@@ -19,6 +19,7 @@ import EditAssignment from "./pages/Assignments/EditAssignment";
 import AttendanceList from "./pages/Attendance/AttendanceList";
 import CreateAttendance from "./pages/Attendance/CreateAttendance";
 import EditAttendance from "./pages/Attendance/EditAttendance";
+import AttendanceDetails from "./pages/Attendance/AttendanceDetails";
 
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
@@ -71,6 +72,7 @@ const isAuthenticated = !!localStorage.getItem("token");
             <Route path="/attendance" element={<ProtectedRoute><AttendanceList /></ProtectedRoute>} />
             <Route path="/attendance/create" element={<ProtectedRoute><CreateAttendance /></ProtectedRoute>} />
             <Route path="/attendance/edit/:id" element={<ProtectedRoute><EditAttendance /></ProtectedRoute>} />
+            <Route path="/attendanceDetails/:id" element={<ProtectedRoute><AttendanceDetails /></ProtectedRoute>} />
 
             {/* Assignments */}
             <Route path="/assignmentDetails/:id" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />

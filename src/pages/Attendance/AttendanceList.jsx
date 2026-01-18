@@ -112,7 +112,7 @@ export default function AttendanceList() {
                     <div className="flex justify-end gap-3">
                       <button
                         className="btn-secondary"
-                        onClick={() => navigate(`/attendance/${attendance.id}`)}
+                        onClick={() => navigate(`/attendanceDetails/${attendance.id}`)}
                       >
                         View
                       </button>

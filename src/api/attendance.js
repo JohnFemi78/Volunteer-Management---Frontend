@@ -3,7 +3,7 @@ import api from "./axios";
 export const createAttendance = (payload) => {
   return api.post("/attendance/create", payload);
 };
-//attendance should not be editable
+//attendance is not editable
 // export const updateAttendance = async (id, payload) => {
 //   const response = await api.put(`/attendance/${id}`, payload);
 //   return response.data;

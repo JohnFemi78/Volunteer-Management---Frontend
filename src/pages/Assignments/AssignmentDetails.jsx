@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 
 export default function Attendance() {
-  const [assignment, setAssignment] = useState(null);
+  const [assignment, setAssignment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const {id} = useParams();
@@ -24,10 +24,9 @@ export default function Attendance() {
       try {
         const res = await getAssignsById(id);
         if(isMounted) {
-
           setAssignment(res.data.assignment);
         }
-        
+       console.log("Assignment Data :", res.data.assignment); 
       } catch (error) {
         console.error(error);
         if(isMounted){

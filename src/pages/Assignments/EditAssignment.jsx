@@ -19,7 +19,6 @@ export default function EditAssignment() {
     const formattedDate = new Date().toISOString().split("T")[0];
 
     useEffect(() => {
-        setIsLoading(true);
         async function LoadAssignment(){
             setIsLoading(true);
             try {
