@@ -7,6 +7,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  
 
   const navigate = useNavigate();
 
@@ -19,13 +20,16 @@ export default function Login() {
     try {
       const response = await loginUser ({ email, password });
 
-      const { access_token } = response.data;
+      const { access_token, user } = response.data;
         
-      // 1️⃣ Save token to localStorage
+      // Save token to localStorage
       localStorage.setItem("token", access_token);
 
+      // Save user to localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+
       
-      // 3️⃣ Navigate to dashboard
+      // Navigate to dashboard
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

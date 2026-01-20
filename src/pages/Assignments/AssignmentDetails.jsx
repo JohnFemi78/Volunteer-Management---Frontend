@@ -26,7 +26,7 @@ export default function Attendance() {
         if(isMounted) {
           setAssignment(res.data.assignment);
         }
-       console.log("Assignment Data :", res.data.assignment); 
+     
       } catch (error) {
         console.error(error);
         if(isMounted){

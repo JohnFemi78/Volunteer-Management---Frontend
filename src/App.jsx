@@ -2,8 +2,8 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 // Layout
-import Sidebar from "./components/layout/Sidebar";
-import Topbar from "./components/layout/Topbar";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
 
 // Routes
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -15,9 +15,9 @@ import { isAuthenticated } from "./utils/auth";
 // Public pages
 import Hero from "./pages/Hero";
 import About from "./pages/About";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import SignOut from "./pages/auth/SignOut";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import SignOut from "./pages/SignOut";
 
 // Dashboard
 import Dashboard from "./pages/Dashboard";
@@ -58,13 +58,13 @@ export default function App() {
 
         <main className="p-6 overflow-auto">
           <Routes location={location}>
-            {/* 🌍 Public routes */}
+            {/* Public routes */}
             <Route path="/" element={<Hero />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* 🔐 Protected routes */}
+            {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/logout" element={<SignOut />} />
@@ -95,7 +95,7 @@ export default function App() {
               />
               <Route path="/assignment" element={<CreateAssignment />} />
 
-              {/* 🔒 ADMIN-only routes */}
+              {/* ADMIN-only routes */}
               <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
                 <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
                 <Route path="/attendance/edit/:id" element={<EditAttendance />} />
@@ -103,7 +103,7 @@ export default function App() {
               </Route>
             </Route>
 
-            {/* 🚫 Fallback */}
+            {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
