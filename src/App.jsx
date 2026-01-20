@@ -1,89 +1,113 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard";
-import VolunteersList from "./pages/Volunteers/VolunteersList";
-import VolunteerDetails from "./pages/Volunteers/VolunteerDetails";
-import EditVolunteer from "./pages/Volunteers/EditVolunteer";
-import CreateVolunteer from "./pages/Volunteers/CreateVolunteer";
+// Layout
+import Sidebar from "./components/layout/Sidebar";
+import Topbar from "./components/layout/Topbar";
 
-import ProjectsList from "./pages/Projects/ProjectsList";
-import ProjectDetails from "./pages/Projects/ProjectDetails";
-import CreateProject from "./pages/Projects/CreateProject";
+// Routes
+import ProtectedRoute from "./routes/ProtectedRoute";
+import RoleRoute from "./routes/RoleRoute";
 
-import AssignmentDetails from "./pages/Assignments/AssignmentDetails";
-import AssignmentLists from "./pages/Assignments/AssignmentLists";
-import CreateAssignment from "./pages/Assignments/CreateAssignment";
-import EditAssignment from "./pages/Assignments/EditAssignment";
+// Utils
+import { isAuthenticated } from "./utils/auth";
 
-import AttendanceList from "./pages/Attendance/AttendanceList";
-import CreateAttendance from "./pages/Attendance/CreateAttendance";
-import EditAttendance from "./pages/Attendance/EditAttendance";
-import AttendanceDetails from "./pages/Attendance/AttendanceDetails";
-
-import Sidebar from "./components/Sidebar";
-import Topbar from "./components/Topbar";
+// Public pages
 import Hero from "./pages/Hero";
 import About from "./pages/About";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import SignOut from "./pages/SignOut";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import SignOut from "./pages/auth/SignOut";
 
+// Dashboard
+import Dashboard from "./pages/Dashboard";
 
-const ProtectedRoute = ({children}) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return <Navigate to="/login" replace />;
-    }
-    return children;  
-  };
-function App() {
+// Volunteers
+import VolunteersList from "./pages/volunteers/VolunteersList";
+import VolunteerDetails from "./pages/volunteers/VolunteerDetails";
+import CreateVolunteer from "./pages/volunteers/CreateVolunteer";
+import EditVolunteer from "./pages/volunteers/EditVolunteer";
+
+// Projects
+import ProjectsList from "./pages/projects/ProjectsList";
+import ProjectDetails from "./pages/projects/ProjectDetails";
+import CreateProject from "./pages/projects/CreateProject";
+
+// Attendance
+import AttendanceList from "./pages/attendance/AttendanceList";
+import AttendanceDetails from "./pages/attendance/AttendanceDetails";
+import CreateAttendance from "./pages/attendance/CreateAttendance";
+import EditAttendance from "./pages/attendance/EditAttendance";
+
+// Assignments
+import AssignmentLists from "./pages/assignments/AssignmentLists";
+import AssignmentDetails from "./pages/assignments/AssignmentDetails";
+import CreateAssignment from "./pages/assignments/CreateAssignment";
+import EditAssignment from "./pages/assignments/EditAssignment";
+
+export default function App() {
   const location = useLocation();
-const isAuthenticated = !!localStorage.getItem("token");
-  
+  const authenticated = isAuthenticated();
+
   return (
     <div className="flex h-screen bg-slate-50 text-slate-900">
-      {isAuthenticated && <Sidebar />}
+      {authenticated && <Sidebar />}
 
-      <div className="flex-1 flex flex-col">
-        {isAuthenticated && <Topbar />}
+      <div className="flex flex-1 flex-col">
+        {authenticated && <Topbar />}
 
         <main className="p-6 overflow-auto">
           <Routes location={location}>
+            {/* 🌍 Public routes */}
             <Route path="/" element={<Hero />} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<ProtectedRoute><SignOut /></ProtectedRoute>} />
-            {/* Volunteers */}
-            <Route path="/volunteer/create" element={<ProtectedRoute><CreateVolunteer /></ProtectedRoute>} />
-            <Route path="/volunteers" element={<ProtectedRoute><VolunteersList /></ProtectedRoute>} />
-            <Route path="/volunteer/:id" element={<ProtectedRoute><VolunteerDetails /></ProtectedRoute>} />
-            <Route path="/volunteer/edit/:id" element={<ProtectedRoute><EditVolunteer /></ProtectedRoute>} />
+            <Route path="/register" element={<Register />} />
 
-            {/* Projects */}
-            <Route path="/projects" element={<ProtectedRoute><ProjectsList /></ProtectedRoute>} />
-            <Route path="/projects/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
-            <Route path="/CreateProject" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
+            {/* 🔐 Protected routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/logout" element={<SignOut />} />
 
+              {/* Volunteers */}
+              <Route path="/volunteers" element={<VolunteersList />} />
+              <Route path="/volunteer/create" element={<CreateVolunteer />} />
+              <Route path="/volunteer/:id" element={<VolunteerDetails />} />
 
-            {/* Attendance */}
-            <Route path="/attendance" element={<ProtectedRoute><AttendanceList /></ProtectedRoute>} />
-            <Route path="/attendance/create" element={<ProtectedRoute><CreateAttendance /></ProtectedRoute>} />
-            <Route path="/attendance/edit/:id" element={<ProtectedRoute><EditAttendance /></ProtectedRoute>} />
-            <Route path="/attendanceDetails/:id" element={<ProtectedRoute><AttendanceDetails /></ProtectedRoute>} />
+              {/* Projects */}
+              <Route path="/projects" element={<ProjectsList />} />
+              <Route path="/projects/:id" element={<ProjectDetails />} />
+              <Route path="/projects/create" element={<CreateProject />} />
 
-            {/* Assignments */}
-            <Route path="/assignmentDetails/:id" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
-            <Route path="/assignmentLists" element={<ProtectedRoute><AssignmentLists /></ProtectedRoute>} />
-            <Route path="/assignment" element={<ProtectedRoute><CreateAssignment /></ProtectedRoute>} />
-            <Route path="/assignment/edit/:id" element={<ProtectedRoute><EditAssignment /></ProtectedRoute>} />
+              {/* Attendance */}
+              <Route path="/attendance" element={<AttendanceList />} />
+              <Route path="/attendance/create" element={<CreateAttendance />} />
+              <Route
+                path="/attendanceDetails/:id"
+                element={<AttendanceDetails />}
+              />
+
+              {/* Assignments */}
+              <Route path="/assignmentLists" element={<AssignmentLists />} />
+              <Route
+                path="/assignmentDetails/:id"
+                element={<AssignmentDetails />}
+              />
+              <Route path="/assignment" element={<CreateAssignment />} />
+
+              {/* 🔒 ADMIN-only routes */}
+              <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
+                <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
+                <Route path="/attendance/edit/:id" element={<EditAttendance />} />
+                <Route path="/assignment/edit/:id" element={<EditAssignment />} />
+              </Route>
+            </Route>
+
+            {/* 🚫 Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </div>
     </div>
   );
 }
-
-export default App;

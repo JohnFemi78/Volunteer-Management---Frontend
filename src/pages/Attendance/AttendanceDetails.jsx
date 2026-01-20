@@ -21,10 +21,8 @@ export default function AttendanceDetails() {
         try {
            const res = await getAttendanceById(id);
            if (isMounted){
-               setAttendance(res.res.attendance);
+               setAttendance(res.data.attendance);
             }
-            console.log("Attendance Data :", res.data);
-            console.log("Attendance Data Response :", res.data.attendance);
         } catch (error) {
             console.error(error);
             if (isMounted){

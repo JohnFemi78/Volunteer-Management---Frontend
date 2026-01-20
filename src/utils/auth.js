@@ -1,16 +1,25 @@
 export function getUser() {
-  return JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+}
+
+export function getRole() {
+  return getUser()?.role || null;
 }
 
 export function isAdmin() {
-  return getUser()?.role === "ADMIN";
+  return getRole() === "ADMIN";
 }
 
 export function isManager() {
-  return getUser()?.role === "MANAGER";
+  return getRole() === "MANAGER";
+}
+
+export function hasRole(...allowedRoles) {
+  const role = getRole();
+  return role ? allowedRoles.includes(role) : false;
 }
 
 export function canDeleteVolunteer() {
-  const role = getUser()?.role;
-  return role === "ADMIN" || role === "MANAGER";
+  return hasRole("ADMIN", "MANAGER");
 }
