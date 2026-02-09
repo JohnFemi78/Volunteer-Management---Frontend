@@ -20,7 +20,7 @@ Tech Stack
 
 Framework: React / Next.js
 
-Styling: CSS Modules / SCSS / Tailwind CSS
+Styling: CSS Modules / Tailwind CSS
 
 State Management: React Hooks / Context API
 
