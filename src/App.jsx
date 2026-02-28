@@ -23,15 +23,16 @@ import SignOut from "./pages/SignOut";
 import Dashboard from "./pages/Dashboard";
 
 // Volunteers
-import VolunteersList from "./pages/volunteers/VolunteersList";
-import VolunteerDetails from "./pages/volunteers/VolunteerDetails";
-import CreateVolunteer from "./pages/volunteers/CreateVolunteer";
-import EditVolunteer from "./pages/volunteers/EditVolunteer";
+import VolunteersList from "./pages/Volunteers/VolunteersList";
+import VolunteerDetails from "./pages/Volunteers/VolunteerDetails";
+import CreateVolunteer from "./pages/Volunteers/CreateVolunteer";
+import EditVolunteer from "./pages/Volunteers/EditVolunteer";
 
 // Projects
-import ProjectsList from "./pages/projects/ProjectsList";
-import ProjectDetails from "./pages/projects/ProjectDetails";
-import CreateProject from "./pages/projects/CreateProject";
+import ProjectsList from "./pages/Projects/ProjectsList";
+import ProjectDetails from "./pages/Projects/ProjectDetails";
+import CreateProject from "./pages/Projects/CreateProject";
+import EditProject from "./pages/Projects/EditProject";
 
 // Attendance
 import AttendanceList from "./pages/attendance/AttendanceList";
@@ -73,26 +74,23 @@ export default function App() {
               <Route path="/volunteers" element={<VolunteersList />} />
               <Route path="/volunteer/create" element={<CreateVolunteer />} />
               <Route path="/volunteer/:id" element={<VolunteerDetails />} />
+              
 
               {/* Projects */}
               <Route path="/projects" element={<ProjectsList />} />
               <Route path="/projects/:id" element={<ProjectDetails />} />
               <Route path="/projects/create" element={<CreateProject />} />
+              
 
               {/* Attendance */}
               <Route path="/attendance" element={<AttendanceList />} />
               <Route path="/attendance/create" element={<CreateAttendance />} />
-              <Route
-                path="/attendanceDetails/:id"
-                element={<AttendanceDetails />}
-              />
+              <Route path="/attendanceDetails/:id" element={<AttendanceDetails />} />
+              
 
               {/* Assignments */}
               <Route path="/assignmentLists" element={<AssignmentLists />} />
-              <Route
-                path="/assignmentDetails/:id"
-                element={<AssignmentDetails />}
-              />
+              <Route path="/assignmentDetails/:id" element={<AssignmentDetails />} />
               <Route path="/assignment" element={<CreateAssignment />} />
 
               {/* ADMIN-only routes */}
@@ -100,6 +98,7 @@ export default function App() {
                 <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
                 <Route path="/attendance/edit/:id" element={<EditAttendance />} />
                 <Route path="/assignment/edit/:id" element={<EditAssignment />} />
+                <Route path="/projects/edit/:id" element={<EditProject />} />
               </Route>
             </Route>
 

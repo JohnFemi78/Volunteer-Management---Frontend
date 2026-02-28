@@ -8,7 +8,7 @@ export default function RoleRoute({ allowedRoles }) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!allowedRoles.includes(user.role)) {
+  if (!allowedRoles.includes(user.role?.toUpperCase())) {
     return (
       <div className="h-screen flex items-center justify-center">
         <p className="text-lg font-semibold text-red-600">

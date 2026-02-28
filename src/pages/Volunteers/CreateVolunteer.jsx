@@ -11,12 +11,12 @@ export default function CreateVolunteer() {
     lastName: "",
     phone: "",
     gender: "",
-    skills: "",
+    skills: [],
     image: "",
     state: "",
     lga: "",
 
-  });
+});
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

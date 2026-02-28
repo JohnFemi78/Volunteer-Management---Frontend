@@ -9,7 +9,7 @@ const NavItem = ({to, children}) => (
 
 export default function Sidebar(){
   return (
-    <aside className="w-64 bg-indigo-600 text-white p-4 flex flex-col gap-4">
+    <aside className="w-64 bg-indigo-600 text-white p-4 flex flex-col gap-4 text-2xl">
       <div className="text-2xl font-semibold">VolunteerUI</div>
       <nav className="flex flex-col gap-1 mt-4">
         <NavItem to="/dashboard">🏠 Dashboard</NavItem>

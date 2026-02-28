@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from "react";
 import Card  from "../../components/ui/Card";
 import { getAssignsById } from "../../api/assigns";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 
 export default function Attendance() {
-  const [assignment, setAssignment] = useState("");
+  const [assignment, setAssignment] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const {id} = useParams();
+  const navigate = useNavigate();
 
   function formatDate(dateString) {
   if (!dateString) return "-";
@@ -38,7 +39,12 @@ export default function Attendance() {
       }
     };
     loadAssignment();
+
+    return () => {
+      isMounted = false;
+    };  
   }, [id]);
+  if (!assignment) return null;
 
   if (isLoading) return <p>Loading...</p>;
   if (error)  return <p className="text-red-500">{error}</p>;
@@ -58,7 +64,7 @@ export default function Attendance() {
           </div>
          
           <div>  
-            <span className="font-medium text-slate-600">End Date: </span>  
+            <span className="font-medium text-slate-600">Assigned Date: </span>  
             <span className="text-slate-800">{formatDate(assignment.assignedDate)}</span>
           </div>    
           <div>  
@@ -73,7 +79,7 @@ export default function Attendance() {
       <h2>
         <button
           className="mt-4 text-blue-600 hover:underline"
-          onClick={() => window.history.back()}
+          onClick={() => navigate(-1)}
         >
           Back
         </button>

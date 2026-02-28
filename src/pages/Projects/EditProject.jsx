@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { updateProject, getProjectById } from '../../api/projects';
 import { useParams, useNavigate } from 'react-router-dom';
+import Card from '../../components/ui/Card';
 
 
 export default function EditProject() {
-    const [project, setProject] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const {id} = useParams();
     const navigate = useNavigate();
 
-    const [form, setForm] = ({
+    const [form, setForm] = useState({
         projectName: '',
         description: '',
         startDate: '',
@@ -24,22 +24,25 @@ export default function EditProject() {
         try {
           const res = await getProjectById(id);
           const p = res?.data?.project;
-          setForm({
+           
+           setForm({
             projectName: p.projectName || "",
             description: p.description || "",
-            startDate: p.startDate || "",
-            endDate: p.endDate || "",
+            startDate: p.startDate ? p.startDate.split('T')[0] : "",
+            endDate: p.endDate ? p.endDate.split('T')[0]: "",
             status: p.status || ""
           });
-          console.log("ResData:", res.data);
+        
+        
         } catch (error) {
-          console.error(error)  
+          console.error(error)
+          setError("Could not load project data. Please try again")  
         } finally{
            setIsLoading(false);
         }
     }
      loadProject(); 
-    }, [id]);
+    }, [id, setForm]);
 
     function handleChange(e){
         setForm({
@@ -51,7 +54,7 @@ export default function EditProject() {
     async function handleSubmit(e){
         e.preventDefault();
         await updateProject(id, form);
-        navigate(`./projects/${id}`);
+        navigate(`/projects/${id}`);
     };
 
     if (isLoading) return <div>Loading...</div>
@@ -59,7 +62,8 @@ export default function EditProject() {
 
   return (
      <div className="max-w-xl mx-auto">
-        <p className="text-3xl text-amber-950 hover:bg-blue-200 hover:shadow-amber-300" onClick={() => navigate('./projects')}>Back</p>
+        <p className="text-3xl text-amber-950 hover:bg-blue-200 hover:shadow-amber-300" 
+        onClick={() => navigate('/projects')}>Back</p>
         <Card className="p-6 rounded-xl shadow-sm bg-white">
           <h2 className="text-2xl font-semibold mb-6 text-slate-800">
             Update Project

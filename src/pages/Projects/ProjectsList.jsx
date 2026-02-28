@@ -48,54 +48,123 @@ export default function ProjectsList() {
     return <div className="p-6 text-red-600">{error}</div>;
   }
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Projects</h2>
+    <div className="min-h-screen bg-linear-to-br from-indigo-50 via-white to-blue-50 p-8">
+    <div className="max-w-6xl mx-auto">
+
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">
+            Projects
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Manage and organize your volunteer projects
+          </p>
+        </div>
 
         <button
-          className="btn-primary text-1xl text-blue-600 hover:underline cursor-pointer"
           onClick={() => navigate("/CreateProject")}
+          className="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-medium shadow-md hover:bg-indigo-700 hover:shadow-lg transition"
         >
-          Add Project
+          + Add Project
         </button>
       </div>
 
-      {projects.length === 0 ? (
-        <Card>
-          <p className="text-slate-500 text-center">No Project Found</p>
-        </Card>
-      ) : (
-        <div className="grid gap-4">
-          {projects.map((project) => (
-            <Card key={project.id}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-medium text-lg">{project.projectName}</h3>
-                  <p className="text-sm text-slate-500 mt-1">
-                    {project.projectDescription}
-                  </p>
-                </div>
-
-                <div className="flex gap-2">
-                  <button
-                    className="btn-secondary"
-                    onClick={() => navigate(`/projects/${project.id}`)}
-                  >
-                    View
-                  </button>
-
-                  <button
-                    className="btn-danger"
-                    onClick={() => handleDeleteProject(project.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </Card>
-          ))}
+      {/* Loading */}
+      {loading && (
+        <div className="text-center text-gray-500 mt-10">
+          Loading projects...
         </div>
       )}
+
+      {/* Error */}
+      {error && (
+        <div className="p-4 mb-6 rounded-xl bg-red-50 text-red-600 border border-red-200">
+          {error}
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!loading && projects.length === 0 && (
+        <div className="bg-white rounded-2xl shadow-md p-10 text-center border border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-700">
+            No Projects Yet
+          </h3>
+          <p className="text-sm text-gray-500 mt-2">
+            Start by creating your first project.
+          </p>
+        </div>
+      )}
+
+      {/* Projects Grid */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {projects.map((project) => (
+          <div
+          key={project.id}
+          className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 border border-gray-100 flex flex-col justify-between"
+        >
+          {/* Top Section */}
+          <div>
+            <div className="flex justify-between items-start mb-3">
+              <h3 className="text-xl font-semibold text-gray-800">
+                {project.projectName}
+              </h3>
+        
+              {/* Example Status Badge (optional) */}
+              {project.status && (
+                <span className="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-medium">
+                  {project.status}
+                </span>
+              )}
+            </div>
+        
+            {/* Description */}
+            <p className="text-sm text-gray-600 leading-relaxed mb-4">
+              {project.projectDescription}
+            </p>
+        
+            {/* Small Project Details */}
+            <div className="grid grid-cols-2 gap-4 text-sm text-gray-500 border-t pt-4">
+              <div>
+                <p className="font-medium text-gray-700">Start Date</p>
+                <p>{project.startDate ? new Date(project.startDate).toLocaleDateString() : "N/A"}</p>
+              </div>
+        
+              <div>
+                <p className="font-medium text-gray-700">End Date</p>
+                <p>{project.endDate ? new Date(project.endDate).toLocaleDateString() : "N/A"}</p>
+              </div>
+            </div>
+          </div>
+        
+          {/* Action Buttons */}
+          <div className="flex gap-2 mt-6">
+            <button
+              onClick={() => navigate(`/projects/${project.id}`)}
+              className="flex-1 py-2 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition"
+            >
+              View Details
+            </button>
+        
+            <button
+              onClick={() => navigate(`/projects/edit/${project.id}`)}
+              className="px-4 py-2 rounded-xl border border-indigo-300 text-indigo-600 text-sm hover:bg-indigo-50 transition"
+            >
+              Edit
+            </button>
+        
+            <button
+              onClick={() => handleDeleteProject(project.id)}
+              className="px-4 py-2 rounded-xl border border-red-300 text-red-600 text-sm hover:bg-red-50 transition"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        ))}
+      </div>
+
     </div>
-  );
+  </div>
+);
 }
