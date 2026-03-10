@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Card from "../../components/ui/Card";
 import { getProjects, deleteProjectById } from "../../api/projects";
 import { useNavigate } from "react-router-dom";
-
 export default function ProjectsList() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,6 +46,7 @@ export default function ProjectsList() {
   if (error) {
     return <div className="p-6 text-red-600">{error}</div>;
   }
+  
   return (
     <div className="min-h-screen bg-linear-to-br from-indigo-50 via-white to-blue-50 p-8">
     <div className="max-w-6xl mx-auto">

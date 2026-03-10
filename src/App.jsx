@@ -8,6 +8,7 @@ import Topbar from "./components/Topbar";
 // Routes
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
+import AdminDashboard from "./pages/AdminDashboard";
 
 // Utils
 import { isAuthenticated } from "./utils/auth";
@@ -48,7 +49,12 @@ import EditAssignment from "./pages/assignments/EditAssignment";
 
 export default function App() {
   const location = useLocation();
-  const authenticated = isAuthenticated();
+  // const [user, setUser] = React.useState(null);
+  const [authenticated, setAuthenticated] = React.useState(isAuthenticated);
+
+  React.useEffect(() => {
+    setAuthenticated(isAuthenticated());
+  }, [location]);
 
   return (
     <div className="flex h-screen bg-slate-50 text-slate-900">
@@ -62,13 +68,16 @@ export default function App() {
             {/* Public routes */}
             <Route path="/" element={<Hero />} />
             <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login setAuth={setAuthenticated} />} />
+            <Route path="/register" element={<Register setAuth={setAuthenticated}/>} />
 
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/logout" element={<SignOut />} />
+              <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}> 
+                <Route path="admin" element={<AdminDashboard />} />
+              </Route>
 
               {/* Volunteers */}
               <Route path="/volunteers" element={<VolunteersList />} />

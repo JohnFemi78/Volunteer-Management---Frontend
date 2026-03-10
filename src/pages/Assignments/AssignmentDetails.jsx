@@ -49,42 +49,77 @@ export default function Attendance() {
   if (isLoading) return <p>Loading...</p>;
   if (error)  return <p className="text-red-500">{error}</p>;
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <Card>
-        <h2 className="text-2xl font-semibold mb-4 text-slate-800">
+    <div className="max-w-4xl mx-auto p-6">
+      <Card className="p-6 shadow-md border border-gray-200 rounded-xl">
+        
+        <h2 className="text-2xl font-bold text-slate-800 mb-6">
           Assignment Details
-        </h2>   
+        </h2>
+  
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  
+          {/* Volunteer */}
           <div>
-            <span className="font-medium text-slate-600">Volunteer ID: </span>  
-            <span className="text-slate-800">{assignment.volunteerId}</span>
+            <p className="text-sm text-slate-500">Volunteer ID</p>
+            <p className="text-lg font-medium text-slate-800">
+              {assignment.volunteerId}
+            </p>
           </div>
+  
+          {/* Project */}
           <div>
-            <span className="font-medium text-slate-600">Project ID: </span>  
-            <span className="text-slate-800">{assignment.projectId}</span>
+            <p className="text-sm text-slate-500">Project ID</p>
+            <p className="text-lg font-medium text-slate-800">
+              {assignment.projectId}
+            </p>
           </div>
-         
-          <div>  
-            <span className="font-medium text-slate-600">Assigned Date: </span>  
-            <span className="text-slate-800">{formatDate(assignment.assignedDate)}</span>
-          </div>    
-          <div>  
-            <span className="font-medium text-slate-600">Status: </span>  
-            <span className="text-slate-800">{assignment.status}</span>
-          </div>  
-          <div>  
-            <span className="font-medium text-slate-600">Role: </span>  
-            <span className="text-slate-800">{assignment.role}</span>
+  
+          {/* Assigned Date */}
+          <div>
+            <p className="text-sm text-slate-500">Assigned Date</p>
+            <p className="text-lg font-medium text-slate-800">
+              {formatDate(assignment.assignedDate)}
+            </p>
           </div>
+  
+          {/* Role */}
+          <div>
+            <p className="text-sm text-slate-500">Role</p>
+            <p className="text-lg font-medium text-slate-800">
+              {assignment.role}
+            </p>
+          </div>
+  
+          {/* Status */}
+          <div>
+            <p className="text-sm text-slate-500 mb-1">Status</p>
+  
+            <span
+              className={`px-3 py-1 text-sm rounded-full font-medium ${
+                assignment.status === "Active"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-600"
+              }`}
+            >
+              {assignment.status}
+            </span>
+          </div>
+  
+        </div>
+  
+        {/* Divider */}
+        <div className="border-t border-gray-200 mt-6 pt-4 flex justify-end">
+  
+          <button
+            className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+  
+        </div>
+  
       </Card>
-      <h2>
-        <button
-          className="mt-4 text-blue-600 hover:underline"
-          onClick={() => navigate(-1)}
-        >
-          Back
-        </button>
-      </h2>
-      
     </div>
   );
 }

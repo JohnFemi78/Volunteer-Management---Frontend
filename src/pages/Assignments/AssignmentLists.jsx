@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { getAssigns, deleteAssignsById, getAssignsById } from '../../api/assigns';
-import { useParams, useNavigate } from 'react-router-dom';
+import { getAssigns, deleteAssignsById } from '../../api/assigns';
+import { useNavigate } from 'react-router-dom';
 import Card from '../../components/ui/Card';
 
 
@@ -25,6 +25,24 @@ export default function AssignmentLists() {
     }
     loadAssignments();
     },[]);
+
+    function formatDate(date) {
+      if (!date) return "N/A";
+      return new Date(date).toLocaleDateString();
+    }
+    
+    function calculateDuration(start, end) {
+      if (!start || !end) return "N/A";
+    
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+    
+      const diff = endDate - startDate;
+    
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    
+      return `${days} days`;
+    }
 
 
     async function deleteAssignment(id) {
@@ -87,54 +105,81 @@ export default function AssignmentLists() {
         </thead>
 
         <tbody className="divide-y divide-gray-100">
-          {assignments.map((assignment) => (
-            <tr key={assignment.id} className= "odd:bg-white even:bg-gray-50 hover:bg-gray-100">
-              <td className="px-4 py-3">
-                <div className="font-medium text-gray-900">
-                  {assignment.volunteer ?.firstName}{" "}
-                  {assignment.volunteer ?.lastName}
-                </div>
-              </td>
+  {assignments.map((assignment) => {
 
-              <td className="px-4 py-3">
-                <div className="text-sm font-medium text-gray-900">
-                  {assignment.project ?.projectName}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {assignment.project ?.projectDetails}
-                </div>
-              </td>
+    const startDate = assignment.project?.projectStartDate;
+    const endDate = assignment.project?.projectEndDate;
 
-              <td className="px-4 py-3 text-sm text-gray-600">
-                {assignment.project ?.projectStartDate} || {" "}
-                {assignment.project ?.projectEndDate}
-              </td>
+    return (
+      <tr
+        key={assignment.id}
+        className="hover:bg-gray-50 transition"
+      >
+        {/* Volunteer */}
+        <td className="px-4 py-4">
+          <div className="font-medium text-gray-900">
+            {assignment.volunteer?.firstName}{" "}
+            {assignment.volunteer?.lastName}
+          </div>
+        </td>
 
-              <td className="px-4 py-3 text-right">
-                <div className="flex justify-end gap-4">
-                  <button
-                    onClick={() => navigate(`/assignmentDetails/${assignment.id}`)}
-                    className="text-sm font-medium text-indigo-600 hover:underline"
-                  >
-                    View
-                  </button>
+        {/* Project */}
+        <td className="px-4 py-4">
+          <div className="font-medium text-gray-900">
+            {assignment.project?.projectName}
+          </div>
 
-                  <button onClick={() => navigate(`/assignment/edit/${assignment.id}`)}
-                    className="text-sm font-medium text-green-600 hover:underline"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteAssignment(assignment.id)}
-                    className="text-sm font-medium text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+          <div className="text-sm text-gray-500">
+            {assignment.project?.projectDetails}
+          </div>
+        </td>
+
+        {/* Duration */}
+        <td className="px-4 py-4 text-sm text-gray-600">
+          <div>
+            <span className="font-medium">
+              {formatDate(startDate)}
+            </span>
+            {" - "}
+            <span className="font-medium">
+              {formatDate(endDate)}
+            </span>
+          </div>
+
+          <div className="text-xs text-gray-500 mt-1">
+            {calculateDuration(startDate, endDate)}
+          </div>
+        </td>
+
+        {/* Actions */}
+        <td className="px-4 py-4">
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => navigate(`/assignmentDetails/${assignment.id}`)}
+              className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+            >
+              View
+            </button>
+
+            <button
+              onClick={() => navigate(`/assignment/edit/${assignment.id}`)}
+              className="text-green-600 hover:text-green-800 text-sm font-medium"
+            >
+              Edit
+            </button>
+
+            <button
+              onClick={() => deleteAssignment(assignment.id)}
+              className="text-red-600 hover:text-red-800 text-sm font-medium"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  })}
+    </tbody>
       </table>
     </div>
   )}

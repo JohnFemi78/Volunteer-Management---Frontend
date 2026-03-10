@@ -46,49 +46,78 @@ export default function AttendanceDetails() {
     if (isLoading) return <p>Loading...</p>
     if (error) return <p className='text-red-500'>{error}</p>
     if (!attendance) return <p>No attendance data available.</p>
-  return (
-      <div>
-        <Card>
-        <h2 className="text-2xl font-semibold mb-4 text-slate-800">
-          Attendance Details
-        </h2>
-        </Card>
-        <Card>
-        <div className="space-y-4">
-          <div>
-            <h3 className="text-lg font-medium text-slate-700">Volunteer ID:</h3>
-            {attendance && (
-                <p className="text-slate-600">{attendance.volunteerId || "-"}</p>
-            )}
+    return (
+        <div className="max-w-4xl mx-auto p-6">
+          <Card className="p-6 border border-gray-200 shadow-sm rounded-xl">
+      
+            <h2 className="text-2xl font-bold text-slate-800 mb-6">
+              Attendance Details
+            </h2>
+      
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+              {/* Volunteer */}
+              <div>
+                <p className="text-sm text-slate-500">Volunteer ID</p>
+                <p className="text-lg font-medium text-slate-800">
+                  {attendance.volunteerId || "-"}
+                </p>
+              </div>
+      
+              {/* Project */}
+              <div>
+                <p className="text-sm text-slate-500">Project ID</p>
+                <p className="text-lg font-medium text-slate-800">
+                  {attendance.projectId || "-"}
+                </p>
+              </div>
+      
+              {/* Date */}
+              <div>
+                <p className="text-sm text-slate-500">Attendance Date</p>
+                <p className="text-lg font-medium text-slate-800">
+                  {formatDate(attendance.date)}
+                </p>
+              </div>
+      
+              {/* Recorded By */}
+              <div>
+                <p className="text-sm text-slate-500">Recorded By</p>
+                <p className="text-lg font-medium text-slate-800">
+                  {attendance.recordedBy || "-"}
+                </p>
+              </div>
+      
+              {/* Status */}
+              <div>
+                <p className="text-sm text-slate-500 mb-1">Status</p>
+      
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    attendance.status === "Present"
+                      ? "bg-green-100 text-green-700"
+                      : attendance.status === "Absent"
+                      ? "bg-red-100 text-red-700"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {attendance.status || "-"}
+                </span>
+              </div>
+      
             </div>
-            <div>
-            <h3 className="text-lg font-medium text-slate-700">Project ID:</h3>
-            <p className="text-slate-600">{attendance.projectId || "-"}</p>
-            </div>
-            <div>
-            <h3 className="text-lg font-medium text-slate-700">Date:</h3>
-            <p className="text-slate-600">{formatDate(attendance.date) || "-"}</p>
-            </div>
-            <div>
-            <h3 className="text-lg font-medium text-slate-700">Status:</h3>
-            <p className="text-slate-600">{attendance.status || "-"}</p>
-            </div>
-            <div>
-            <h3 className="text-lg font-medium text-slate-700">Documented By:</h3>
-            <p className="text-slate-600">{attendance.recordedBy || "-"}</p>
-            </div>
-            </div>  
-        </Card>
-        <Card>
-        <div>
-            <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => navigate('/attendance')}
-            >
+      
+            {/* Footer */}
+            <div className="border-t border-gray-200 mt-6 pt-4 flex justify-end">
+              <button
+                className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition"
+                onClick={() => navigate("/attendance")}
+              >
                 Back to Attendance List
-            </button>
+              </button>
+            </div>
+      
+          </Card>
         </div>
-        </Card>
-    
-    </div>
-  )
+      );
 }

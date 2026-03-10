@@ -19,13 +19,14 @@ export default function Register({ setUser }) {
 
     try {
       const response = await createUser({ email, password, firstName, lastName });
+      console.log("Full Response:", response);
       
-      const { token, user } = response.data;
+      const { access_token, user } = response.data;
 
         
 
       // Save token and set user state
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", access_token);
       if (setUser) setUser(user);
 
       // Redirect directly to Login
@@ -38,89 +39,104 @@ export default function Register({ setUser }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-50 via-white to-blue-50 px-4">
+      <div className="w-full max-w-md bg-white/90 backdrop-blur rounded-2xl shadow-xl border border-gray-100 p-10">
+  
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">Register new User</h2>
-          <p className="text-slate-500">Register to login to your account</p>
+          <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
+          <p className="text-gray-500 mt-2">
+            Register to access your dashboard
+          </p>
         </div>
-
+  
         {/* Error */}
         {error && (
-          <div className="mb-4 rounded-lg bg-red-50 text-red-700 px-4 py-2 text-sm">
+          <div className="mb-5 rounded-xl bg-red-50 text-red-600 px-4 py-3 text-sm border border-red-200">
             {error}
           </div>
         )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+  
+        <form onSubmit={handleSubmit} className="space-y-6">
+  
+          {/* First Name */}
           <div>
-            <div>
-             <label className="block text-sm font-medium text-slate-600 mb-1">
-                 First Name
-             </label>
-             <input
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              First Name
+            </label>
+            <input
               type="text"
-                 placeholder="John"
-                 value={firstName}
-                 onChange={(e) => setFirstName(e.target.value)}
-                 required
-                 className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-             />
-            </div>
-            <div>
-             <label className="block text-sm font-medium text-slate-600 mb-1">
-                 Last Name
-             </label>
-             <input
+              placeholder="John"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
+  
+          {/* Last Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Last Name
+            </label>
+            <input
               type="text"
-                 placeholder="Doe"
-                 value={lastName}
-                 onChange={(e) => setLastName(e.target.value)}
-                 required
-                 className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-             />
-            </div>
-
-            <label className="block text-sm font-medium text-slate-600 mb-1">Email address</label>
+              placeholder="Doe"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
+  
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Email address
+            </label>
             <input
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
             />
           </div>
-
+  
+          {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Password
+            </label>
             <input
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
             />
           </div>
-
+  
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-indigo-600 text-white py-2 font-semibold hover:bg-indigo-700 transition disabled:opacity-60"
+            className="w-full rounded-xl bg-indigo-600 text-white py-3 font-semibold shadow-md hover:bg-indigo-700 hover:shadow-lg transition disabled:opacity-60"
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? "Registering..." : "Create Account"}
           </button>
+  
         </form>
-
-        {/* Footer Links */}
-        <div className="mt-6 text-center text-sm text-slate-500">
-          <Link to="/" className="hover:text-indigo-600">
-            ← Back to Home
+  
+        {/* Footer */}
+        <div className="mt-8 text-center text-sm text-gray-500">
+          Already have an account?{" "}
+          <Link to="/login" className="text-indigo-600 font-medium hover:underline">
+            Login
           </Link>
         </div>
+  
       </div>
     </div>
   );
